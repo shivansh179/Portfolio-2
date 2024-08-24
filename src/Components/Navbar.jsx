@@ -39,7 +39,7 @@ const Navbar = () => {
       </div>
 
       {/* Navbar items */}
-      <div className={`absolute -top-0.5 -right-0.5 md:flex md:gap-5 px-4 py-1 border-2 border-gray-800 font-mono font-semibold bg-gray-900 rounded-bl-lg ${isMenuOpen ? 'flex flex-col items-start' : 'hidden'} md:flex md:flex-row md:items-center`}>
+      <div className={`absolute -top-0.5 -right-0.5 md:flex md:gap-5 gap-5 px-4 py-1 border-2 border-gray-800 font-mono font-semibold bg-gray-900 rounded-bl-lg ${isMenuOpen ? 'flex flex-col items-start' : 'hidden'} md:flex md:flex-row md:items-center`}>
         {['About', 'Resume', 'Projects', 'Blogs', 'Contact'].map((item) => (
           <button
             key={item}

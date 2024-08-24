@@ -20,12 +20,12 @@ const nameItem = {
 
 const finalMove = {
   moveLeft: {
-    x: '-100vw',  // Move completely out of view to the left
+    x: '-100vw',
     opacity: 0,
     transition: { type: 'spring', stiffness: 30, duration: 2 },
   },
   moveRight: {
-    x: '100vw',  // Move completely out of view to the right
+    x: '100vw',
     opacity: 0,
     transition: { type: 'spring', stiffness: 30, duration: 2 },
   },
@@ -41,13 +41,39 @@ const welcomeText = {
   visible: { opacity: 1, scale: 1, transition: { delay: 0, type: 'spring', stiffness: 100 } },
 };
 
+const rectangleDraw = {
+  hidden: { pathLength: 0, opacity: 0 },
+  visible: {
+    pathLength: 1,
+    opacity: 1,
+    transition: { duration: 2, ease: 'easeInOut' },
+  },
+};
+
+const splitRectangle = {
+  moveLeft: {
+    x: '-50vw',
+    opacity: 0,
+    transition: { type: 'spring', stiffness: 30, duration: 2 },
+  },
+  moveRight: {
+    x: '50vw',
+    opacity: 0,
+    transition: { type: 'spring', stiffness: 30, duration: 2 },
+  },
+};
+
 const Intro = ({ onAnimationEnd }) => {
   const controlsShivansh = useAnimation();
   const controlsShukla = useAnimation();
   const controlsWelcome = useAnimation();
+  const controlsRectangle = useAnimation();
 
   useEffect(() => {
     const sequence = async () => {
+      // Start the rectangle drawing animation
+      await controlsRectangle.start('visible');
+
       // Start the animations for "Shivansh" and "Shukla"
       await controlsShivansh.start('visible');
       await controlsShukla.start('visible');
@@ -70,6 +96,9 @@ const Intro = ({ onAnimationEnd }) => {
         controlsShukla.start(finalMove.moveRight),
       ]);
 
+      // Split and move the rectangle
+      await controlsRectangle.start(splitRectangle.moveLeft);
+
       // Show the welcome text immediately after the movement
       await controlsWelcome.start('visible');
 
@@ -78,10 +107,38 @@ const Intro = ({ onAnimationEnd }) => {
     };
 
     sequence();
-  }, [controlsShivansh, controlsShukla, controlsWelcome, onAnimationEnd]);
+  }, [controlsShivansh, controlsShukla, controlsWelcome, controlsRectangle, onAnimationEnd]);
 
   return (
     <div className="h-screen flex items-center justify-center bg-gray-900 relative overflow-hidden">
+      {/* Animated Rectangle */}
+      <motion.svg
+        width="400"
+        height="200"
+        viewBox="0 0 400 200"
+        className="absolute"
+      >
+        <defs>
+          <mask id="mask">
+            <rect x="0" y="0" width="400" height="200" fill="white" />
+          </mask>
+        </defs>
+        <motion.rect
+          x="0"
+          y="0"
+          width="400"
+          height="200"
+          rx="15"
+          stroke="#1e3a8a"
+          strokeWidth="5"
+          fill="transparent"
+          variants={rectangleDraw}
+          initial="hidden"
+          animate={controlsRectangle}
+          mask="url(#mask)"
+        />
+      </motion.svg>
+
       <motion.div className="flex flex-col text-center text-white text-6xl font-bold">
         <motion.div
           className="mr-4"

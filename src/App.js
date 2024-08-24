@@ -9,7 +9,7 @@ function App() {
   useEffect(() => {
     const timer = setTimeout(() => {
       setShowIntro(false);
-    }, 7000); // Set the duration for the intro display (e.g., 3000ms = 3 seconds)
+    }, 10000); // Set the duration for the intro display (e.g., 3000ms = 3 seconds)
 
     return () => clearTimeout(timer); // Cleanup timer on component unmount
   }, []);
@@ -19,14 +19,16 @@ function App() {
       {showIntro ? (
         <Intro />
       ) : (
+        <>
         <div className='bg-gray-800 h-fit flex flex-col md:flex-row'>
+        
+      
           <div className='md:h-screen'>
             <Left />
           </div>
           <Navbar />
+        
         </div>
-      )}
-
       <div className='bg-gray-800 text-center text-teal-400 font-bold text-1xl flex flex-col'>
 
        <span>  Design Inspired by <span className='text-green-600'> Om Kharche</span> </span> 
@@ -34,6 +36,10 @@ function App() {
       <span>  Coded with ❤️ Shivansh Shukla </span>
 
       </div>
+         
+        </>
+      )}
+
     </>
   );
 }

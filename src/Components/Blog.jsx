@@ -8,7 +8,7 @@ const Blog = () => {
       </h1>
       <div className='mt-10 flex flex-col items-center'>
         <div className='w-24 h-24 border-8 border-teal-600 rounded-full animate-spin'></div>
-        <p className='text-teal-500 mt-4 text-xl font-mono'>I'm working on something exciting!</p>
+        <p className='text-teal-500 mt-4  text-xl  text-center font-mono'>I'm working on something exciting!</p>
       </div>
 
       

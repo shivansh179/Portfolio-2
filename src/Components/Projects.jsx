@@ -105,13 +105,13 @@ const Projects = () => {
               rel="noopener noreferrer"
               className='block'
             >
-              <div className='text-white font-mono font-bold bg-gray-700 rounded-md p-2 px-4 mb-1 w-fit'>{project.name}</div>
+              <div className='text-teal-500 font-mono font-bold bg-gray-700 rounded-md p-2 px-4 mb-1 w-fit'>{project.name}</div>
               <img 
                 src={project.src} 
                 alt={project.name} 
-                className='rounded-lg shadow-lg object-cover w-full lg:h-72 h-50 transition duration-300 transform group-hover:scale-105'
+                className='text-teal-500 rounded-lg shadow-lg object-cover w-full lg:h-72 h-50 transition duration-300 transform group-hover:scale-105'
               />
-              <p className='text-gray-300 text-sm mt-2'>{project.description}</p>
+              <p className='text-sm mt-2 font-mono font-semibold text-teal-500'>{project.description}</p>
             </a>
           </motion.div>
         ))}
