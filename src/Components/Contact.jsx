@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import emailjs from 'emailjs-com';
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
+import { motion } from 'framer-motion';
 
 const Contact = () => {
   const [formData, setFormData] = useState({
@@ -48,11 +49,21 @@ const Contact = () => {
   };
 
   return (
-    <div className='h-auto w-full bg-gray-900 shadow-lg rounded-lg md:p-8 border border-gray-900'>
-      <h1 className="text-3xl font-mono font-bold mb-8 border-b-2 text-yellow-200 border-yellow-500 pb-4">Contact Me</h1>
+    <motion.div
+      className='h-auto w-full bg-gray-900 shadow-lg rounded-lg md:p-8 border border-gray-900'
+      initial={{ opacity: 0 }}
+      animate={{ opacity: 1 }}
+      transition={{ duration: 0.5 }}
+    >
+      <h1 className="text-3xl font-mono font-bold mb-8 border-b-2 text-teal-500 border-teal-500 pb-4">Contact Me</h1>
       
       {/* Map Section */}
-      <div className='mb-10'>
+      <motion.div
+        className='mb-10'
+        initial={{ opacity: 0, scale: 0.95 }}
+        animate={{ opacity: 1, scale: 1 }}
+        transition={{ duration: 0.5 }}
+      >
         <a 
           href="https://www.google.com/maps/dir/?api=1&destination=28.899880449764776,77.12160171473462&travelmode=driving" 
           target="_blank" 
@@ -66,56 +77,76 @@ const Contact = () => {
             loading="lazy"
           ></iframe>
         </a>
-        <p className="text-yellow-200 mt-2 text-sm">
+        <p className="text-teal-700 mt-2 text-sm">
           Click on the map to get directions from your location. A marker indicates the destination.
         </p>
-      </div>
+      </motion.div>
 
       {/* Contact Form Section */}
-      <div className='bg-gray-800 p-8 rounded-lg shadow-lg'>
-        <h2 className='text-2xl font-bold text-yellow-200 mb-6'>Get in Touch</h2>
+      <motion.div
+        className='bg-gray-800 md:p-8 p-2 rounded-lg shadow-lg'
+        initial={{ opacity: 0, scale: 0.95 }}
+        animate={{ opacity: 1, scale: 1 }}
+        transition={{ duration: 0.5 }}
+      >
+        <h2 className='text-2xl font-bold text-teal-500 mb-6'>Get in Touch</h2>
         
         <form onSubmit={handleSubmit}>
           <div className='flex flex-col sm:flex-row gap-6'>
             {/* Full Name Input */}
-            <input 
+            <motion.input 
               type="text" 
               name="name"
               value={formData.name}
               onChange={handleChange}
               placeholder='Full Name' 
-              className='w-full sm:w-1/2 p-4 bg-gray-700 text-white rounded-lg focus:outline-none focus:ring-2 focus:ring-yellow-500' 
+              className='w-full sm:w-1/2 p-4 bg-gray-700 text-white rounded-lg focus:outline-none focus:ring-2 focus:ring-teal-500'
+              initial={{ opacity: 0, x: -20 }}
+              animate={{ opacity: 1, x: 0 }}
+              transition={{ duration: 0.3 }}
             />
             
             {/* Email Input */}
-            <input 
+            <motion.input 
               type="email" 
               name="email"
               value={formData.email}
               onChange={handleChange}
               placeholder='Email Address' 
-              className='w-full sm:w-1/2 p-4 bg-gray-700 text-white rounded-lg focus:outline-none focus:ring-2 focus:ring-yellow-500' 
+              className='w-full sm:w-1/2 p-4 bg-gray-700 text-white rounded-lg focus:outline-none focus:ring-2 focus:ring-teal-500'
+              initial={{ opacity: 0, x: -20 }}
+              animate={{ opacity: 1, x: 0 }}
+              transition={{ duration: 0.3, delay: 0.1 }}
             />
           </div>
 
           {/* Message Input */}
-          <textarea 
+          <motion.textarea 
             name="message"
             value={formData.message}
             onChange={handleChange}
             placeholder='Your Message' 
-            className='w-full mt-6 p-4 bg-gray-700 text-white rounded-lg focus:outline-none focus:ring-2 focus:ring-yellow-500 h-32 resize-none'
-          ></textarea>
+            className='w-full mt-6 p-4 bg-gray-700 text-white rounded-lg focus:outline-none focus:ring-2 focus:ring-teal-500 h-32 resize-none'
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.3, delay: 0.2 }}
+          ></motion.textarea>
 
           {/* Submit Button */}
-          <button type="submit" className='mt-6 px-6 py-3 bg-yellow-500 text-gray-900 font-bold rounded-lg shadow-md hover:bg-yellow-600 transition-all'>
+          <motion.button 
+            type="submit" 
+            className='mt-6 px-6 py-3  bg-teal-500 text-gray-900 font-bold rounded-lg shadow-md hover:bg-teal-500 transition-all'
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.3, delay: 0.3 }}
+          >
             Send Message
-          </button>
+          </motion.button>
         </form>
-      </div>
+      </motion.div>
       <ToastContainer />
-    </div>
-  )
-}
+    </motion.div>
+  );
+};
 
 export default Contact;

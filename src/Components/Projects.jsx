@@ -1,75 +1,123 @@
-import React, { useState } from 'react'
+import React, { useState } from 'react';
+import { motion } from 'framer-motion';
+import { Link } from 'react-router-dom';
 
 const Projects = () => {
-  // Define project data with categories
+  // Define project data with categories and descriptions
   const projectData = [
-    { id: 1, name: "Portfolio Website", category: "Web Design", description: "A personal portfolio website showcasing my skills and projects." },
-    { id: 2, name: "Weather App", category: "Application", description: "A weather forecasting app using OpenWeather API." },
-    { id: 3, name: "E-commerce Website", category: "Web Development", description: "A full-fledged e-commerce platform built with React and Firebase." },
-    { id: 4, name: "To-Do List App", category: "Application", description: "A simple and effective to-do list app with local storage support." },
-    { id: 5, name: "Blog Website", category: "Web Design", description: "A clean and responsive blog website template using HTML and CSS." },
-    { id: 6, name: "Chat Application", category: "Web Development", description: "A real-time chat application with user authentication and WebSockets." },
+    { id: 1, name: "DISNEY CLONE", category: "Web Design", description: "This project is a clone of the Disney+ Hotstar application. It was my first project, where I aimed to replicate the design and functionality of the original platform. Through this project, I gained hands-on experience in front-end development, particularly in creating a seamless user interface that mirrors the real Disney+ Hotstar experience.", src:"/Disney.jpeg", link:"https://disney-4cmk.vercel.app/" },
+    { id: 2, name: "POLLUTION ANALYZER", category: "Application", description: "This web app provides real-time analysis of air pollution levels. Users can input the coordinates of a location to check the air quality index (AQI) and see detailed information about the pollutants and gases present in the air. This project helped me delve into API integration and environmental data analysis, offering valuable insights into the current air quality conditions.", src:"/Pollution.jpeg", link:"https://air-pollution-analyzer.vercel.app/" },
+    { id: 3, name: "FINTECH AUTHENTICATION", category: "Web Development", description: "This project focuses on developing alternative methods for digital transaction authentication, beyond the traditional OTP system. The challenge was posed by a fintech company that wanted to reduce dependence on telecom companies for OTPs. I implemented various authentication methods, including biometric recognition, face ID, magic links, and security pins, providing a more secure and reliable solution.", src:"/Fintech.jpeg", link:"https://fintech-beige-seven.vercel.app/" },
+    { id: 4, name: "CIIE SRMUH", category: "Application", description: "This web app was developed for my college's incubation cell, which focuses on innovation and entrepreneurship. The platform serves both students and administration, facilitating the management of events, workshops, and student data. It features separate interfaces for clients and admins, making it a comprehensive tool for organizing and managing incubation activities. This project enhanced my skills in full-stack development and user management.", src:"/Incubation.jpeg", link:"https://ciiesrmuh.in/" },
   ];
 
-  // State to track the selected category
+  // State to track the selected category and menu toggle
   const [selectedCategory, setSelectedCategory] = useState("All");
+  const [menuOpen, setMenuOpen] = useState(false); // For toggling the menu on small screens
 
   // Filter projects based on selected category
-  const filteredProjects = selectedCategory === "All" 
-    ? projectData 
+  const filteredProjects = selectedCategory === "All"
+    ? projectData
     : projectData.filter(project => project.category === selectedCategory);
 
   return (
-    <div className='h-auto w-full bg-gray-900 shadow-lg rounded-lg p-6 border border-gray-900'>
-      <h1 className='font-bold font-mono text-2xl mb-4 text-yellow-200'>Projects</h1>
-      <hr className='w-48 border-yellow-200'/>
-      
+    <motion.div
+      initial={{ opacity: 0 }}
+      animate={{ opacity: 1 }}
+      transition={{ duration: 0.5 }}
+      className='h-auto w-full bg-gray-900 shadow-lg rounded-lg md:p-6 border border-gray-900'
+    >
+      <h1 className='font-bold font-mono text-2xl mb-4 text-teal-200'>Projects</h1>
+      <hr className='w-48 border-teal-200'/>
+
+      {/* Menu Button for small screens */}
+      <div className='block sm:hidden'>
+        <button 
+          onClick={() => setMenuOpen(!menuOpen)} 
+          className='text-white bg-teal-600 p-2 rounded-md font-mono font-bold mt-2'
+        >
+          {menuOpen ? 'Close' : 'Filter'}
+        </button>
+      </div>
+
       {/* Filter Buttons */}
-      <ul className='list-none flex gap-7 text-white font-mono mt-6 font-bold text-sm'>
+      <motion.ul 
+        className={`${menuOpen ? 'block' : 'hidden'} sm:flex gap-7 text-white font-mono mt-6 font-bold text-sm`}
+        initial={{ opacity: 0 }}
+        animate={{ opacity: 1 }}
+        transition={{ delay: 0.2 }}
+      >
         <li 
-          className={`cursor-pointer hover:text-yellow-200 ${selectedCategory === 'All' ? 'text-yellow-200' : ''}`} 
+          className={`cursor-pointer hover:text-teal-200 ${selectedCategory === 'All' ? 'text-teal-200' : ''}`} 
           onClick={() => setSelectedCategory("All")}
         >
           All
         </li>
         <li 
-          className={`cursor-pointer hover:text-yellow-200 ${selectedCategory === 'Web Design' ? 'text-yellow-200' : ''}`} 
+          className={`cursor-pointer hover:text-teal-200 ${selectedCategory === 'Web Design' ? 'text-teal-200' : ''}`} 
           onClick={() => setSelectedCategory("Web Design")}
         >
           Web Design
         </li>
         <li 
-          className={`cursor-pointer hover:text-yellow-200 ${selectedCategory === 'Application' ? 'text-yellow-200' : ''}`} 
+          className={`cursor-pointer hover:text-teal-200 ${selectedCategory === 'Application' ? 'text-teal-200' : ''}`} 
           onClick={() => setSelectedCategory("Application")}
         >
           Application
         </li>
         <li 
-          className={`cursor-pointer hover:text-yellow-200 ${selectedCategory === 'Web Development' ? 'text-yellow-200' : ''}`} 
+          className={`cursor-pointer hover:text-teal-200 ${selectedCategory === 'Web Development' ? 'text-teal-200' : ''}`} 
           onClick={() => setSelectedCategory("Web Development")}
         >
           Web Development
         </li>
-      </ul>
+      </motion.ul>
 
       {/* Projects Grid */}
-      <div className='mt-12 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-2 xl:grid-cols-2 gap-10'>
+      <motion.div 
+        className='mt-5 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-2 xl:grid-cols-2 gap-10'
+        initial="hidden"
+        animate="visible"
+        variants={{
+          hidden: { opacity: 0, scale: 0.8 },
+          visible: {
+            opacity: 1,
+            scale: 1,
+            transition: {
+              delayChildren: 0.3,
+              staggerChildren: 0.2
+            }
+          }
+        }}
+      >
         {filteredProjects.map((project) => (
-          <div key={project.id} className='relative group w-full'>
-            <img 
-              src={`/Statistics.jpg`} 
-              alt={project.name} 
-              className='rounded-lg shadow-lg object-cover w-full h-72 transition duration-300 transform group-hover:scale-105'
-            />
-            <div className='absolute inset-0 bg-black bg-opacity-60 opacity-0 group-hover:opacity-100 transition duration-300 flex flex-col justify-center items-center rounded-lg'>
-              <h3 className='text-white font-bold text-xl'>{project.name}</h3>
+          <motion.div 
+            key={project.id} 
+            className='relative group w-full bg-gray-800 p-3 rounded-md'
+            whileHover={{ scale: 1.05 }}
+            initial={{ opacity: 0, y: 50 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.3 }}
+          >
+            <a 
+              href={project.link} 
+              target="_blank" 
+              rel="noopener noreferrer"
+              className='block'
+            >
+              <div className='text-white font-mono font-bold bg-gray-700 rounded-md p-2 px-4 mb-1 w-fit'>{project.name}</div>
+              <img 
+                src={project.src} 
+                alt={project.name} 
+                className='rounded-lg shadow-lg object-cover w-full lg:h-72 h-50 transition duration-300 transform group-hover:scale-105'
+              />
               <p className='text-gray-300 text-sm mt-2'>{project.description}</p>
-            </div>
-          </div>
+            </a>
+          </motion.div>
         ))}
-      </div>
-    </div>
+      </motion.div>
+    </motion.div>
   );
-}
+};
 
 export default Projects;
