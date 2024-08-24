@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import { motion, useAnimation } from 'framer-motion';
 import { toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
@@ -64,10 +64,31 @@ const splitRectangle = {
 };
 
 const Intro = ({ onAnimationEnd }) => {
+  const [rectSize, setRectSize] = useState({ width: 400, height: 200 });
   const controlsShivansh = useAnimation();
   const controlsShukla = useAnimation();
   const controlsWelcome = useAnimation();
   const controlsRectangle = useAnimation();
+
+  useEffect(() => {
+    // Adjust rectangle size for smaller screens
+    const updateRectSize = () => {
+      const screenWidth = window.innerWidth;
+      if (screenWidth < 768) {
+        setRectSize({ width: 300, height: 150 }); // Smaller size for small screens
+      } else {
+        setRectSize({ width: 400, height: 200 }); // Default size for larger screens
+      }
+    };
+
+    // Initial update
+    updateRectSize();
+
+    // Listen for window resize
+    window.addEventListener('resize', updateRectSize);
+
+    return () => window.removeEventListener('resize', updateRectSize);
+  }, []);
 
   useEffect(() => {
     const sequence = async () => {
@@ -113,21 +134,21 @@ const Intro = ({ onAnimationEnd }) => {
     <div className="h-screen flex items-center justify-center bg-gray-900 relative overflow-hidden">
       {/* Animated Rectangle */}
       <motion.svg
-        width="400"
-        height="200"
-        viewBox="0 0 400 200"
+        width={rectSize.width}
+        height={rectSize.height}
+        viewBox={`0 0 ${rectSize.width} ${rectSize.height}`}
         className="absolute"
       >
         <defs>
           <mask id="mask">
-            <rect x="0" y="0" width="400" height="200" fill="white" />
+            <rect x="0" y="0" width={rectSize.width} height={rectSize.height} fill="white" />
           </mask>
         </defs>
         <motion.rect
           x="0"
           y="0"
-          width="400"
-          height="200"
+          width={rectSize.width}
+          height={rectSize.height}
           rx="15"
           stroke="#1e3a8a"
           strokeWidth="5"
