@@ -1,6 +1,9 @@
 import React, { useState } from 'react';
 import Right from './Right';
 import Resume from './Resume';
+import Projects from './Projects';
+import Contact from './Contact';
+
 
 const Navbar = () => {
   const [activeComponent, setActiveComponent] = useState('About');
@@ -12,6 +15,10 @@ const Navbar = () => {
         return <Right />;
       case 'Resume':
         return <Resume />;
+      case 'Projects':
+        return <Projects />
+      case 'Contact':
+        return <Contact />
       default:
         return <Right />;
     }
@@ -55,14 +62,14 @@ const Navbar = () => {
         </button>
         <button
           className={`transition-colors duration-300 ${
-            activeComponent === 'Blog' ? 'text-yellow-400 border-b-2 border-yellow-400' : 'text-gray-600 hover:text-blue-200'
+            activeComponent === 'Projects' ? 'text-yellow-400 border-b-2 border-yellow-400' : 'text-gray-600 hover:text-blue-200'
           }`}
           onClick={() => {
-            setActiveComponent('Blog');
+            setActiveComponent('Projects');
             setIsMenuOpen(false);
           }}
         >
-          Blog
+          Projects
         </button>
         <button
           className={`transition-colors duration-300 ${
