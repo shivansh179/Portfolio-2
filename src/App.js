@@ -29,7 +29,7 @@ function App() {
           <Navbar />
         
         </div>
-      <div className='bg-gray-800 text-center text-teal-400 font-bold text-1xl flex flex-col'>
+      <div className='bg-gray-800 text-center text-teal-400 font-bold text-1xl flex flex-col p-3'>
 
        <span>  Design Inspired by <span className='text-green-600'> Om Kharche</span> </span> 
        <span>  Created using React.js, Tailwind CSS, and Framer Motion </span> 
