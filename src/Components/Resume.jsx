@@ -86,7 +86,7 @@ const Resume = () => {
       {/* Centering the Download Resume button */}
       <div className="flex justify-center mt-8">
         <a
-          href="https://drive.google.com/file/d/1GQdkMAZBaxuy3g_yavVL6TNTmjd_Em98/view?usp=sharing"
+          href="https://drive.google.com/file/d/1GihR3JwVDnhCNAUFaPXhP_vts1p6B3Cv/view?usp=sharing"
           target="_blank"
           rel="noopener noreferrer"
         >

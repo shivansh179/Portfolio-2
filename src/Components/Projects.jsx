@@ -5,11 +5,62 @@ import { Link } from 'react-router-dom';
 const Projects = () => {
   // Define project data with categories and descriptions
   const projectData = [
-    { id: 1, name: "DISNEY CLONE", category: "Web Design", description: "This project is a clone of the Disney+ Hotstar application. It was my first project, where I aimed to replicate the design and functionality of the original platform. Through this project, I gained hands-on experience in front-end development, particularly in creating a seamless user interface that mirrors the real Disney+ Hotstar experience.", src:"/Disney.jpeg", link:"https://disney-4cmk.vercel.app/" },
-    { id: 2, name: "POLLUTION ANALYZER", category: "Application", description: "This web app provides real-time analysis of air pollution levels. Users can input the coordinates of a location to check the air quality index (AQI) and see detailed information about the pollutants and gases present in the air. This project helped me delve into API integration and environmental data analysis, offering valuable insights into the current air quality conditions.", src:"/Pollution.jpeg", link:"https://air-pollution-analyzer.vercel.app/" },
-    { id: 3, name: "FINTECH AUTHENTICATION", category: "Web Development", description: "This project focuses on developing alternative methods for digital transaction authentication, beyond the traditional OTP system. The challenge was posed by a fintech company that wanted to reduce dependence on telecom companies for OTPs. I implemented various authentication methods, including biometric recognition, face ID, magic links, and security pins, providing a more secure and reliable solution.", src:"/Fintech.jpeg", link:"https://fintech-beige-seven.vercel.app/" },
-    { id: 4, name: "CIIE SRMUH", category: "Application", description: "This web app was developed for my college's incubation cell, which focuses on innovation and entrepreneurship. The platform serves both students and administration, facilitating the management of events, workshops, and student data. It features separate interfaces for clients and admins, making it a comprehensive tool for organizing and managing incubation activities. This project enhanced my skills in full-stack development and user management.", src:"/Incubation.jpeg", link:"https://ciiesrmuh.in/" },
-    { id: 4, name: "Gemini", category: "Application", description: "This project is a working clone of the Gemini web browser, built from the ground up. It faithfully replicates the core functionality of Gemini, including fetching and displaying Gemini documents, navigating between resources using links, and rendering basic text and code formats. The project utilizes [Firebase, Javascript and Tailwind] to process Gemini requests and render the content. The user interface is designed to be intuitive and familiar, offering a streamlined experience for exploring the Gemini network. This clone provides a valuable tool for understanding the principles behind the Gemini protocol and serves as a starting point for further exploration and development within the Gemini ecosystem.", src:"/robot.jpg", link:"https://gemini-api-project.vercel.app/" },
+    { 
+      id: 1, 
+      name: "CIIE SRMUH", 
+      category: "Application", 
+      description: "This web app was developed for my college's incubation cell, which focuses on innovation and entrepreneurship. The platform serves both students and administration, facilitating the management of events, workshops, and student data. It features separate interfaces for clients and admins, making it a comprehensive tool for organizing and managing incubation activities. This project enhanced my skills in full-stack development and user management.", 
+      src:"/Incubation.jpeg", 
+      link:"https://ciiesrmuh.in/" 
+    },
+    { 
+      id: 2, 
+      name: "FOOD ALLERGY DETECTOR", 
+      category: "Application", 
+      description: "Developed a real-time food allergy detector designed to support people with food allergies. Users can create a profile and scan product barcodes to receive alerts if the product contains any allergenic ingredients. This project demonstrates proficiency in API integration and user-centric application design.", 
+      src:"/food.jpg", 
+      link:"https://allergic-food-detector.vercel.app/" 
+    },
+    { 
+      id: 3, 
+      name: "ALTERNATIVE AUTHENTICATION SYSTEM", 
+      category: "Web Development", 
+      description: "Created a multi-factor authentication system that reduced dependency on traditional OTP methods by 50%. Implemented advanced security measures like biometric authentication, face ID, and magic links, enhancing both security and reliability for fintech applications.", 
+      src:"/Auth.jpg", 
+      link:"https://fintech-beige-seven.vercel.app/" 
+    },
+    { 
+      id: 4, 
+      name: "GEMINI CLONE", 
+      category: "Application", 
+      description: "This project is a working clone of the Gemini web browser, built to replicate its core functionality, such as fetching and displaying Gemini documents, navigating resources using links, and rendering basic text formats. Designed an intuitive interface and integrated support for rendering Gemini documents.", 
+      src:"/Gemini.jpg", 
+      link:"https://gemini-api-project.vercel.app/" 
+    },
+    { 
+      id: 5, 
+      name: "Unify - A Blogging Platform", 
+      category: "Web Design", 
+      description: "Unify is a blogging platform designed for seamless content sharing and collaboration. It features a modern, responsive interface, user authentication, and a dashboard for managing posts. This project helped refine my skills in front-end design and back-end integration, focusing on user-friendly experiences and efficient content management.", 
+      src:"/Blog.png", 
+      link:"https://blogging-app-flame.vercel.app/" 
+    },
+    { 
+      id: 6, 
+      name: "POLLUTION ANALYZER", 
+      category: "Application", 
+      description: "This web app provides real-time analysis of air pollution levels. Users can input the coordinates of a location to check the air quality index (AQI) and see detailed information about the pollutants and gases present in the air. This project helped me delve into API integration and environmental data analysis, offering valuable insights into the current air quality conditions.", 
+      src:"/Pollution.jpeg", 
+      link:"https://air-pollution-analyzer.vercel.app/" 
+    },
+    { 
+      id: 7, 
+      name: "Decentralize Voting Platform", 
+      category: "Application", 
+      description: "This blockchain-based platform ensures transparency and security during voting processes. It uses Ethereum for real-time vote tracking and cryptographic measures to guarantee voter privacy. The project demonstrates my expertise in blockchain technology and its integration with modern web applications.", 
+      src:"/vote.png", 
+      link:"https://e-vote-pearl.vercel.app/" 
+    },
   ];
 
   // State to track the selected category and menu toggle
