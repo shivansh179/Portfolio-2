@@ -3,198 +3,231 @@ import { motion, useAnimation } from 'framer-motion';
 import { toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 
-const nameContainer = {
-  hidden: { opacity: 0 },
-  visible: {
-    opacity: 1,
-    transition: {
-      staggerChildren: 0.2,
-    },
-  },
-};
-
-const nameItem = {
-  hidden: { opacity: 0, y: -50 },
-  visible: { opacity: 1, y: 0, transition: { type: 'spring', stiffness: 300 } },
-};
-
-const finalMove = {
-  moveLeft: {
-    x: '-100vw',
-    opacity: 0,
-    transition: { type: 'spring', stiffness: 30, duration: 2 },
-  },
-  moveRight: {
-    x: '100vw',
-    opacity: 0,
-    transition: { type: 'spring', stiffness: 30, duration: 2 },
-  },
-  visible: {
-    x: 0,
-    opacity: 1,
-    transition: { duration: 0 },
-  },
-};
-
-const welcomeText = {
-  hidden: { opacity: 0, scale: 0.8 },
-  visible: { opacity: 1, scale: 1, transition: { delay: 0, type: 'spring', stiffness: 100 } },
-};
-
-const rectangleDraw = {
-  hidden: { pathLength: 0, opacity: 0 },
-  visible: {
-    pathLength: 1,
-    opacity: 1,
-    transition: { duration: 2, ease: 'easeInOut' },
-  },
-};
-
-const splitRectangle = {
-  moveLeft: {
-    x: '-50vw',
-    opacity: 0,
-    transition: { type: 'spring', stiffness: 30, duration: 2 },
-  },
-  moveRight: {
-    x: '50vw',
-    opacity: 0,
-    transition: { type: 'spring', stiffness: 30, duration: 2 },
-  },
-};
-
 const Intro = ({ onAnimationEnd }) => {
-  const [rectSize, setRectSize] = useState({ width: 400, height: 200 });
-  const controlsShivansh = useAnimation();
-  const controlsShukla = useAnimation();
+  const controlsFirstName = useAnimation();
+  const controlsLastName = useAnimation();
   const controlsWelcome = useAnimation();
-  const controlsRectangle = useAnimation();
+  const controlsBackground = useAnimation();
+  const [isMounted, setIsMounted] = useState(false);
 
+  // Set mounted state after component mounts
   useEffect(() => {
-    // Adjust rectangle size for smaller screens
-    const updateRectSize = () => {
-      const screenWidth = window.innerWidth;
-      if (screenWidth < 768) {
-        setRectSize({ width: 300, height: 150 }); // Smaller size for small screens
-      } else {
-        setRectSize({ width: 400, height: 200 }); // Default size for larger screens
+    setIsMounted(true);
+  }, []);
+
+  // Run animation sequence only after component is mounted
+  useEffect(() => {
+    if (!isMounted) return;
+
+    const sequence = async () => {
+      try {
+        // Start with dark background
+        await controlsBackground.start({ opacity: 1 });
+        
+        // First name animation
+        await controlsFirstName.start("visible");
+        
+        // Last name animation with a slight delay
+        await new Promise(resolve => setTimeout(resolve, 300));
+        await controlsLastName.start("visible");
+        
+        // Show the toast
+        toast.success('Welcome to my portfolio!', {
+          position: "top-center",
+          autoClose: 2000,
+          hideProgressBar: false,
+          closeOnClick: true,
+          pauseOnHover: true,
+          draggable: true,
+          progress: undefined,
+          style: { fontSize: '16px', fontWeight: 'bold' },
+        });
+        
+        // Short pause for the user to read the names
+        await new Promise(resolve => setTimeout(resolve, 1000));
+        
+        // Move names away
+        await Promise.all([
+          controlsFirstName.start("exitLeft"),
+          controlsLastName.start("exitRight"),
+        ]);
+        
+        // Show welcome text
+        await controlsWelcome.start("visible");
+        
+        // Short pause to read welcome text
+        await new Promise(resolve => setTimeout(resolve, 1200));
+        
+        // Fade everything out
+        await Promise.all([
+          controlsWelcome.start("exit"),
+          controlsBackground.start({ opacity: 0, transition: { duration: 0.8 } }),
+        ]);
+        
+        // End animation
+        if (onAnimationEnd) onAnimationEnd();
+      } catch (error) {
+        console.error("Animation sequence error:", error);
+        // Fallback to end animation if there's an error
+        if (onAnimationEnd) onAnimationEnd();
       }
     };
 
-    // Initial update
-    updateRectSize();
-
-    // Listen for window resize
-    window.addEventListener('resize', updateRectSize);
-
-    return () => window.removeEventListener('resize', updateRectSize);
-  }, []);
-
-  useEffect(() => {
-    const sequence = async () => {
-      // Start the rectangle drawing animation
-      await controlsRectangle.start('visible');
-
-      // Start the animations for "Shivansh" and "Shukla"
-      await controlsShivansh.start('visible');
-      await controlsShukla.start('visible');
-
-      // Show toast notification
-      toast.success('Welcome!', {
-        position: "top-center",
-        autoClose: 3000,
-        hideProgressBar: true,
-        closeOnClick: true,
-        pauseOnHover: true,
-        draggable: true,
-        progress: undefined,
-        style: { fontSize: '24px', fontWeight: 'bold', color: '#fff', backgroundColor: '#1e3a8a' },
-      });
-
-      // Move "Shivansh" and "Shukla" out of view simultaneously
-      await Promise.all([
-        controlsShivansh.start(finalMove.moveLeft),
-        controlsShukla.start(finalMove.moveRight),
-      ]);
-
-      // Split and move the rectangle
-      await controlsRectangle.start(splitRectangle.moveLeft);
-
-      // Show the welcome text immediately after the movement
-      await controlsWelcome.start('visible');
-
-      // Notify parent component when animation ends
-      if (onAnimationEnd) onAnimationEnd(); 
-    };
-
     sequence();
-  }, [controlsShivansh, controlsShukla, controlsWelcome, controlsRectangle, onAnimationEnd]);
+  }, [controlsFirstName, controlsLastName, controlsWelcome, controlsBackground, onAnimationEnd, isMounted]);
+
+  // Variants for text animations
+  const nameVariants = {
+    hidden: { opacity: 0, y: 20 },
+    visible: { 
+      opacity: 1, 
+      y: 0, 
+      transition: { 
+        duration: 0.6, 
+        type: "spring", 
+        stiffness: 100,
+        staggerChildren: 0.1 
+      } 
+    },
+    exitLeft: { 
+      opacity: 0, 
+      x: -100, 
+      transition: { duration: 0.8, ease: "easeInOut" } 
+    },
+    exitRight: { 
+      opacity: 0, 
+      x: 100, 
+      transition: { duration: 0.8, ease: "easeInOut" } 
+    }
+  };
+
+  const letterVariants = {
+    hidden: { opacity: 0, y: 20 },
+    visible: { 
+      opacity: 1, 
+      y: 0,
+      transition: { type: "spring", stiffness: 200 }
+    }
+  };
+
+  const welcomeVariants = {
+    hidden: { opacity: 0, scale: 0.8 },
+    visible: { 
+      opacity: 1, 
+      scale: 1,
+      transition: { 
+        duration: 0.8, 
+        type: "spring", 
+        stiffness: 100,
+        delay: 0.2
+      } 
+    },
+    exit: { 
+      opacity: 0, 
+      scale: 1.2,
+      transition: { duration: 0.6 } 
+    }
+  };
 
   return (
-    <div className="h-screen flex items-center justify-center bg-gray-900 relative overflow-hidden">
-      {/* Animated Rectangle */}
-      <motion.svg
-        width={rectSize.width}
-        height={rectSize.height}
-        viewBox={`0 0 ${rectSize.width} ${rectSize.height}`}
-        className="absolute"
-      >
-        <defs>
-          <mask id="mask">
-            <rect x="0" y="0" width={rectSize.width} height={rectSize.height} fill="white" />
-          </mask>
-        </defs>
-        <motion.rect
-          x="0"
-          y="0"
-          width={rectSize.width}
-          height={rectSize.height}
-          rx="15"
-          stroke="#1e3a8a"
-          strokeWidth="5"
-          fill="transparent"
-          variants={rectangleDraw}
-          initial="hidden"
-          animate={controlsRectangle}
-          mask="url(#mask)"
-        />
-      </motion.svg>
-
-      <motion.div className="flex flex-col text-center text-white text-6xl font-bold">
-        <motion.div
-          className="mr-4"
-          variants={nameContainer}
-          initial="hidden"
-          animate={controlsShivansh}
-        >
-          {'Shivansh'.split('').map((char, index) => (
-            <motion.span key={index} variants={nameItem}>
-              {char}
-            </motion.span>
-          ))}
-        </motion.div>
-        <motion.div
-          variants={nameContainer}
-          initial="hidden"
-          animate={controlsShukla}
-        >
-          {'Shukla'.split('').map((char, index) => (
-            <motion.span key={index} variants={nameItem}>
-              {char}
-            </motion.span>
-          ))}
-        </motion.div>
-      </motion.div>
-      
+    <motion.div 
+      className="flex items-center justify-center h-screen relative overflow-hidden"
+      style={{ background: 'linear-gradient(to right, #0f2027, #203a43, #2c5364)' }}
+      initial={{ opacity: 0 }}
+      animate={controlsBackground}
+      transition={{ duration: 0.8 }}
+    >
+      {/* Animated gradient background */}
       <motion.div
-        className="absolute text-center text-white text-4xl font-bold"
-        variants={welcomeText}
-        initial="hidden"
-        animate={controlsWelcome}
-      >
-        You're Most Welcome
-      </motion.div>
-    </div>
+        className="absolute inset-0 z-0"
+        initial={{
+          background: "linear-gradient(120deg, #0f2027 0%, #203a43 50%, #2c5364 100%)",
+          backgroundSize: "200% 200%",
+          backgroundPosition: "0% 50%"
+        }}
+        animate={{
+          backgroundPosition: ["0% 50%", "100% 50%", "0% 50%"],
+        }}
+        transition={{
+          duration: 15,
+          ease: "easeInOut",
+          repeat: Infinity,
+        }}
+      />
+
+      {/* Particles effect */}
+      <div className="absolute inset-0 z-10">
+        {[...Array(20)].map((_, i) => (
+          <motion.div
+            key={i}
+            className="absolute rounded-full bg-white"
+            style={{
+              width: Math.random() * 5 + 2,
+              height: Math.random() * 5 + 2,
+              left: `${Math.random() * 100}%`,
+              top: `${Math.random() * 100}%`,
+            }}
+            animate={{
+              opacity: [0, 0.8, 0],
+              scale: [0, 1, 0],
+            }}
+            transition={{
+              duration: Math.random() * 3 + 2,
+              repeat: Infinity,
+              delay: Math.random() * 5,
+            }}
+          />
+        ))}
+      </div>
+
+      <div className="relative z-20 text-center">
+        {/* First name */}
+        <motion.div
+          className="flex justify-center mb-3"
+          variants={nameVariants}
+          initial="hidden"
+          animate={controlsFirstName}
+        >
+          {Array.from("SHIVANSH").map((letter, index) => (
+            <motion.span
+              key={`first-${index}`}
+              variants={letterVariants}
+              className="text-6xl sm:text-7xl font-bold text-white inline-block mx-1"
+            >
+              {letter}
+            </motion.span>
+          ))}
+        </motion.div>
+        
+        {/* Last name */}
+        <motion.div
+          className="flex justify-center"
+          variants={nameVariants}
+          initial="hidden"
+          animate={controlsLastName}
+        >
+          {Array.from("SHUKLA").map((letter, index) => (
+            <motion.span
+              key={`last-${index}`}
+              variants={letterVariants}
+              className="text-6xl sm:text-7xl font-bold text-teal-400 inline-block mx-1"
+            >
+              {letter}
+            </motion.span>
+          ))}
+        </motion.div>
+        
+        {/* Welcome text */}
+        <motion.div
+          className="mt-16 text-4xl font-medium text-white"
+          variants={welcomeVariants}
+          initial="hidden"
+          animate={controlsWelcome}
+        >
+          Welcome to my portfolio
+        </motion.div>
+      </div>
+    </motion.div>
   );
 };
 
